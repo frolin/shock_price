@@ -1,0 +1,4 @@
+class ShockPriceController < ApplicationController
+
+
+end

@@ -1,0 +1,103 @@
+version: '3.3'
+
+networks:
+  web:
+    driver: bridge
+
+services:
+  db:
+    image: postgres
+    hostname: db
+    # container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    # ports:
+      # - "5432:5432"
+    network_mode: host
+    restart: unless-stopped
+
+#  app:
+#    depends_on:
+#      - db
+#      - worker
+#      - chrome
+#    build:
+#      context: .
+#      dockerfile: ./docker/app.Dockerfile
+#    command: /bin/sh -c "bundle install && rails s -b 0.0.0.0 -p 3333"
+#    stdin_open: true
+#    tty: true
+#    environment:
+#      - RAILS_ENV=development
+#      - BOOTSNAP=true
+#    volumes:
+#      - .:/app
+#      - rails_cache:/app/tmp/cache:delegated
+#      - bundle:/vendor/bundle:delegated
+#      - gem_cache:/usr/local/bundle/gems
+#      - ${HOME}/.irbrc:/root/.irbrc
+##      - ${HOME}/.irb-history-market:/root/.irb-history
+#    env_file:
+#    - .env.dev
+#    ports:
+#      - "3333:3333"
+#
+#  worker:
+#    depends_on:
+#      - redis
+#    build:
+#      context: .
+#      dockerfile: ./docker/app.Dockerfile
+#    command: sh -c "bundle install && bundle exec sidekiq"
+#    stdin_open: true
+#    tty: true
+#    environment:
+#      - RAILS_ENV=development
+#      - BOOTSNAP=true
+#    volumes:
+#      - .:/app
+#      - rails_cache:/app/tmp/cache:delegated
+#      - bundle:/vendor/bundle:delegated
+#      - gem_cache:/usr/local/bundle/gems
+#    env_file:
+#      - .env.dev
+#    networks:
+#      - default
+
+  chrome:
+    image: selenium/standalone-chrome-debug
+    # Debug version enables VNC ability
+    environment:
+      - NODE_MAX_INSTANCES=5
+      - SE_DRAIN_AFTER_SESSION_COUNT=5
+      - NODE_MAX_SESSION=5
+      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+      - SCALE=4
+    shm_size: 2g
+    privileged: true
+    volumes:
+      - /dev/shm:/dev/shm
+      - ./config/chrome_profile:/home/seluser/chrome_profile
+    ports:
+      - '4444:4444'
+      - '5900:5900'
+      # Bind selenium port & VNC port
+    logging:
+      driver: none
+      # Disable noisy logs.
+
+#  redis:
+#    image: redis
+#    ports:
+#      - "6379:6379"
+
+volumes:
+  postgres:
+#  bundle:
+#  rails_cache:
+#  gem_cache:
+#  irbrc_history:

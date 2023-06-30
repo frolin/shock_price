@@ -1,0 +1,2 @@
+module ShockPriceHelper
+end
