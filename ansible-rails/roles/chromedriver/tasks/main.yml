@@ -1,0 +1,26 @@
+---
+#- name: "Download chrome driver {{ chromedriver_version }}"
+#  command: "wget https://chromedriver.storage.googleapis.com/{{ chrome_driver_version  }}/chromedriver_linux64.zip"
+#
+#- name: "Unzip chrome driver"
+#  command: "unzip chromedriver_linux64.zip"
+#
+#- name: "Move chrome driver"
+#  command: "mv chromedriver /usr/bin/chromedriver"
+#
+#- name: "chown chrome driver"
+#  command: "sudo chown root:root /usr/bin/chromedriver "
+
+
+
+- name: install chromedriver when absent or current version is not desired version
+  unarchive:
+    src: "http://chromedriver.storage.googleapis.com/{{ chromedriver_version }}/chromedriver_linux{{ '64' if ansible_architecture == 'x86_64' else '32' }}.zip"
+    dest: /usr/local/bin
+    copy: no
+    mode: 0755
+  become: true
+
+- name: "chmod +x chrome driver"
+  command: "sudo chmod +x /usr/local/bin/chromedriver"
+

@@ -1,0 +1,37 @@
+---
+#- name: Bundle install with --deploy
+#  bundler:
+#    state: present
+#    deployment_mode: yes
+#    gem_path: "../../shared/vendor/bundle" # relative to chdir
+#    chdir: "{{ ansistrano_release_path.stdout }}"
+#    exclude_groups: [ "development", "test" ]
+#    executable: "{{ rbenv_bundle }}"
+
+- name: Delete database.yml
+  file:
+    state: absent
+    path: "{{ app_root_path }}/current/config/database.yml"
+
+- name: Create database.yml symbolic link
+  file:
+    src: "{{ app_shared_path }}/config/database.yml"
+    dest: "{{ app_current_path }}/config/database.yml"
+    state: link
+
+- name: Running pending migrations
+  shell: "{{ rbenv_bundle }} exec rake db:migrate"
+  run_once: true
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Create telegram callback
+  shell: "{{ rbenv_bundle }} exec rake telegram:bot:set_webhook"
+  run_once: true
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Precompiling assets
+  shell: "{{ rbenv_bundle }} exec rake assets:precompile"
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"

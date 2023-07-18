@@ -1,0 +1,95 @@
+upstream app {
+    # Path to Puma SOCK file, as defined previously
+    #server unix://0.0.0.0:300 fail_timeout=0;
+    server 0.0.0.0:3000;
+}
+
+server {
+   listen 80 default_server deferred;
+
+    server_name "{{ domain }}";
+
+
+    root {{ app_current_path }}/public;
+    #access_log /home/user_name/apps/app_name/current/log/nginx.access.log;
+    #error_log /home/user_name/apps/app_name/current/log/nginx.error.log info;
+
+
+    try_files $uri/index.html $uri @app;
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+    location @app {
+        proxy_pass http://app;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+    }
+
+    error_page 500 502 503 504 /500.html;
+    client_max_body_size 10M;
+    keepalive_timeout 10;
+}
+
+server {
+  listen 443 ssl;
+
+  # Update this
+  server_name "{{ domain }}";
+
+  # Don't forget to update these, too.
+  # I like to update my log files to include 'ssl' in the name.
+  # If there's ever any need to consult the logs, it's handy to have HTTP and HTTPS traffic separated.
+  root /home/user_name/apps/app_name/current/public;
+  #access_log /home/user_name/apps/app_name/current/log/nginx.ssl.access.log; # Updated file name
+  #error_log /home/user_name/apps/app_name/current/log/nginx.ssl.error.log info; # Updated file name
+
+  location ~ ^/assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  try_files $uri/index.html $uri @app;
+  location @app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    # This is an important line to help fix some redirect issues.
+    proxy_set_header X-Forwarded-Proto https;
+
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+
+    proxy_pass http://app;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 10M;
+  keepalive_timeout 10;
+
+  # The following is most likely added by Certbot. Simply copy that config over to here.
+  ssl_certificate "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"; # managed by Certbot
+  ssl_certificate_key "/etc/letsencrypt/live/{{ domain }}/privkey.pem"; # managed by Certbot
+
+  #include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  #ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    if ($host = "{{ domain }}") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = "www.{{ domain }}") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name  "{{ domain }}" "www.{{ domain }}";
+    listen 80;
+    return 404; # managed by Certbot
+}

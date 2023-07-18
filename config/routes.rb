@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
 
-   telegram_webhook TelegramController
+  telegram_webhook TelegramController
+  mount Sidekiq::Web => '/sidekiq'
 
+  resources :discounts
   # Defines the root path route ("/")
   # root "articles#index"
 end

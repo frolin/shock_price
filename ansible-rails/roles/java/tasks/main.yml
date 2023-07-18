@@ -1,0 +1,20 @@
+
+#- name: add repo for java 8
+#  apt_repository:
+#    repo: 'ppa:webupd8team/java'
+
+
+#- name: oracle-java8-installer
+#  question: shared/accepted-oracle-license-v1-1
+#  value: 'true'
+#  vtype: select
+
+
+- name: install java 8
+  apt: name=default-jdk
+#    name: '{{item}}'
+#    update_cache: True
+#    cache_valid_time: 3600
+#    with_items:
+#    - oracle-java8-installer
+#    - oracle-java8-set-default

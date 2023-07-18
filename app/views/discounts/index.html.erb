@@ -1,0 +1,112 @@
+<style>
+    #discounts-list th, #discounts-list td {
+        vertical-align: middle;
+    }
+
+</style>
+
+<h1 class="mt-4 mb-xl-5">Скидки на сегодня</h1>
+
+
+
+<div class="card">
+  <% Category.parents.each do |category| %>
+    <h4 class="ml-1 pt-xl-3 pb-xl-3"><%= category.name %></h4>
+
+    <ul class="">
+      <% category.subcategories.each do |sub_category| %>
+        <span class="btn btn-group btn-group cat-group"><%= sub_category.name %></span>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+<section class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-header">
+          <h4 class="card-title">Женщины Топ-100 </h4>
+          <a class="heading-elements-toggle"><i class="la la-ellipsis-h font-medium-3"></i></a>
+          <div class="heading-elements">
+
+          </div>
+        </div>
+      </div>
+      <div class="card-content">
+
+
+        <!-- Invoices List table -->
+        <div class="table-responsive">
+          <div id="invoices-list_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+            <table id="discounts-list" class="table table-white-space table-bordered row-grouping display no-wrap icheck table-middle dataTable" role="grid" aria-describedby="invoices-list_info">
+              <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="text-align: center; width: 73px;">
+                  #
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="text-align: center; width: 73px;">
+                  Название
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Invoice #: activate to sort column ascending" style="text-align: center; width: 75px;">
+                  Категория
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Invoice #: activate to sort column ascending" style="text-align: center; width: 75px;">
+                  Акция
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Invoice #: activate to sort column ascending" style="text-align: center; width: 75px;">
+                  История цены
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Order No: activate to sort column ascending" style="text-align: center; width: 70px;">
+                  Старая цена
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Customer Name: activate to sort column ascending" style="text-align: center; width: 70px;">
+                  Новая цена
+                </th>
+
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Balance Due: activate to sort column ascending" style="text-align: center; width: 70px;">
+                  Экономия
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="text-align: center; width: 72px;">
+                  Коэффициент
+                </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="text-align: center; width: 72px;">
+                  Время
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+
+
+              <% @discounts.each do |discount| %>
+                <tr>
+                  <td><img class="img-thumbnail" src="<%= discount.product.image_url %>" alt=""></td>
+                  <td><a target="_blank" href="<%= discount.product.link %>"> <%= discount.product.name %></a></td>
+                  <td><a target="_blank" href="<%= discount.product.category.parent.url %>"> <%= discount.product.category.parent.name %> </a> /
+                    <a target="_blank" href="<%= discount.product.url %>"><%= discount.product.category.name %></a></td>
+                  <td style="text-align: center"><%= discount.sale_name || '--' %> </td>
+                  <td><small> <%= discount.product.prices.map { |p| p.price_discount }.join(' -> ') %> </small></td>
+                  <td style="text-align: center"><%= discount.price.diff[:old] %> ₽</td>
+                  <td style="text-align: center"><%= discount.price.diff[:new] %> ₽</td>
+                  <td style=" vertical-align: middle; text-align: center">
+                    <%= discount.price_diff %> ₽ / <%= discount.price_percent %> %
+                  </td>
+                  <td style="vertical-align: middle; text-align: center"><%= discount.product.weight&.round(2) %> </td>
+                  <td style="vertical-align: middle; text-align: center"><%= discount.created_at.strftime("%T") %> </td>
+                </tr>
+              <% end %>
+
+              </tbody>
+              <tfoot>
+
+              </tfoot>
+            </table>
+          </div>
+          <!--/ Invoices table -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

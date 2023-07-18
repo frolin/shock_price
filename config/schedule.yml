@@ -1,0 +1,7 @@
+#https://crontab.guru/
+
+check_new_discount:
+  cron: "0 * * * *" # execute at every 30 minute
+  class: "Wb::CheckAllCategoriesWorker"
+  queue: 'check_discounts'
+

@@ -51,6 +51,7 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'byebug'
 end
 
 group :development do
@@ -71,7 +72,18 @@ group :test do
   gem "webdrivers"
 end
 
-
+gem 'awesome_print'
 gem 'russian'
 gem 'active_interaction'
 gem 'telegram-bot'
+
+gem 'sidekiq'
+gem 'sidekiq-cron'
+gem 'proxy_fetcher', git: 'https://github.com/nbulaj/proxy_fetcher.git'
+
+gem "cssbundling-rails", "~> 1.2"
+
+gem "jsbundling-rails", "~> 1.1"
+gem 'sassc-rails'
+
+gem "esbuild-rails", "~> 0.1.4"

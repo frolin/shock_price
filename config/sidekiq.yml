@@ -1,0 +1,11 @@
+:pidfile: tmp/pids/sidekiq.pid
+production:
+  :concurrency: 3
+staging:
+  :concurrency: 2
+development:
+  :concurrency: 3
+:queues:
+  - [default, 3]
+  - [check_discounts, 3]
+  - [discounts_import, 3]
