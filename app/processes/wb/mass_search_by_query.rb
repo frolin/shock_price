@@ -26,37 +26,42 @@ module Wb
       @page_number = 1
 
       begin
-        time = Benchmark.measure {
-          loop do
-            break "max page, exit" if @page_number == MAX_PAGE_NUMBER
-            Rails.logger.info "Категория: #{category.name}, URL: #{category.url}"
 
-            @current_page_number = @page_number
-            # puts "Start new iteration with query: #{keyword.name}"
+        loop do
+          break "max page, exit" if @page_number == MAX_PAGE_NUMBER
+          Rails.logger.info "Категория: #{category.name}, URL: #{category.url} Страница: #{@page_number || '1'} "
 
-            @wait.until do
+          @current_page_number = @page_number
+          # puts "Start new iteration with query: #{keyword.name}"
+
+          @wait.until do
+            scroll_time = Benchmark.measure {
               while @page.find_elements(css: ".product-card-list .product-card").count <= 90
                 sleep(0.5)
                 @page.execute_script("window.scrollBy(0,100)")
               end
-              # rescue => e
-              #   byebug
-              #   @page.execute_script("window.location.reload()")
+            }
+            puts "Scroll time: #{scroll_time.real}"
 
-              puts 'Collecting data...'
+            # rescue => e
+            #   byebug
+            #   @page.execute_script("window.location.reload()")
+
+            puts 'Collecting data...'
+            collect_time = Benchmark.measure {
               @page.find_elements(css: ".product-card-list .product-card").each_with_index do |card, idx|
                 card = data(card, idx + 1).merge!(category_id: category.id)
                 cards << card
               end
+            }
+            puts "Collecting time: #{collect_time.real}"
 
-              Wb::DiscountImporterWorker.perform_async(cards.to_json)
-            end
-
-            goto_next_page
+            Wb::DiscountImporterWorker.perform_async(cards.to_json)
           end
-        }
 
-        puts time.real
+          goto_next_page
+        end
+
       ensure
         @page.quit
       end

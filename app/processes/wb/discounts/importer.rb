@@ -5,6 +5,8 @@ require 'uri'
 module Wb
   module Discounts
     class Importer < ActiveInteraction::Base
+      CHAT_ID='-1001987307657'.freeze
+
       array :products_data
 
       def execute
@@ -64,15 +66,15 @@ module Wb
           end
         end
 
-        notify = price_changed.select { |p| p[:price_diff] > 500 }
+        notify = price_changed.select { |p| p[:price_diff] > 400 }
 
         notify.each do |product_info|
           if product_info[:image_url].present?
-            Telegram.bot.send_photo(chat_id: User.last.chat_id,
+            Telegram.bot.send_photo(chat_id: CHAT_ID,
                                     caption: product_text(product_info), photo: product_info[:image_url], parse_mode: 'HTML')
 
           else
-            Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_info, parse_mode: "HTML")
+            Telegram.bot.send_message(chat_id: CHAT_ID, text: product_text(product_info), parse_mode: "HTML")
           end
 
           discount = Discount.find_by(id: product_info[:discount_id])
@@ -98,18 +100,18 @@ module Wb
         file
       end
 
-
       def product_text(product_data)
         text = []
 
-        text << "<a href=#{product_data[:link]}> #{product_data[:name]}</a> \n"
-        text << "Старая цена: #{product_data[:old_price]} \n"
-        text << "Новыя цена: #{product_data[:new_price]} \n"
-        text << "Разница: #{product_data[:price_diff]} \n"
+        text << "\n 🏷 <b>Категория: </b> #{product_data[:category]} \n\n"
+        text << "🛍️ <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a> \n\n"
+
+        text << "❗ <b> Цена: </b> #{product_data[:old_price]} ₽  ➡ ️ #{product_data[:new_price]} ₽ \n\n"
+
+        text << "🔥 <b> Выгода: </b> #{product_data[:price_diff]} ₽ \n "
 
         text.join
       end
-
     end
   end
 end
