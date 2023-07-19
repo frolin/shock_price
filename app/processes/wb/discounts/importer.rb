@@ -69,7 +69,7 @@ module Wb
         notify.each do |product_info|
           if product_info[:image_url].present?
             Telegram.bot.send_photo(chat_id: User.last.chat_id,
-                                    caption: product_info, photo: product_info[:image_url], parse_mode: 'HTML')
+                                    caption: product_text(product_info), photo: product_info[:image_url], parse_mode: 'HTML')
 
           else
             Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_info, parse_mode: "HTML")
@@ -96,6 +96,18 @@ module Wb
         end
 
         file
+      end
+
+
+      def product_text(product_data)
+        text = []
+
+        text << "<a href=#{product_data[:link]}> #{product_data[:name]}</a> \n"
+        text << "Старая цена: #{product_data[:old_price]} \n"
+        text << "Новыя цена: #{product_data[:new_price]} \n"
+        text << "Разница: #{product_data[:price_diff]} \n"
+
+        text.join
       end
 
     end

@@ -2,7 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  routes.default_url_options = { host: '84.201.152.145', protocol: 'https' } # https is necessary!
+  routes.default_url_options = { host: 'shock-price.online', protocol: 'https' } # https is necessary!
 
   # Code is not reloaded between requests.
   config.cache_classes = true
