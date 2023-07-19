@@ -74,6 +74,9 @@
                 <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="text-align: center; width: 72px;">
                   Время
                 </th>
+                <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="text-align: center; width: 72px;">
+                  Уведомление
+                </th>
               </tr>
               </thead>
               <tbody>
@@ -94,6 +97,7 @@
                   </td>
                   <td style="vertical-align: middle; text-align: center"><%= discount.product.weight&.round(2) %> </td>
                   <td style="vertical-align: middle; text-align: center"><%= discount.created_at.strftime("%T") %> </td>
+                  <td style="vertical-align: middle; text-align: center"><%= discount.notify %> </td>
                 </tr>
               <% end %>
 
