@@ -56,18 +56,27 @@ module Wb
               old_price: @product.prices.last(2).first.price_discount,
               new_price: @product.prices.last.price_discount,
               price_diff:,
-              image_url: @product.image_url
+              image_url: @product.image_url,
+              discount_id: discount.id
             }
 
             Rails.logger.info("Price changed for product: #{discount}")
           end
         end
 
-        notify = price_changed.select {|p|  p[:price_diff] > 500}
+        notify = price_changed.select { |p| p[:price_diff] > 500 }
+
         notify.each do |product_info|
-          Telegram.bot.send_photo(chat_id: "#{User.last.chat_id}",
-                            caption: params[:text], photo: save_to_tempfile(product_info[:image_url]), parse_mode: 'HTML')
-          # Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_info, parse_mode: "HTML")
+          if product_info[:image_url].present?
+            Telegram.bot.send_photo(chat_id: User.last.chat_id,
+                                    caption: product_info, photo: product_info[:image_url], parse_mode: 'HTML')
+
+          else
+            Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_info, parse_mode: "HTML")
+          end
+
+          discount = Discount.find_by(id: product_info[:discount_id])
+          discount.update(notify: true) if discount.present?
         end
 
         puts "-------------------------------------------"
@@ -76,17 +85,17 @@ module Wb
         puts "-------------------------------------------"
       end
 
-
       def save_to_tempfile(url)
         uri = URI.parse(url)
+        file = Tempfile.new('foo', Dir.tmpdir)
         Net::HTTP.start(uri.host, uri.port) do |http|
           resp = http.get(uri.path)
-          file = Tempfile.new('foo', Dir.tmpdir, 'wb+')
           file.binmode
           file.write(resp.body)
           file.flush
-          file
         end
+
+        file
       end
 
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_18_171717) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_18_224125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_171717) do
     t.datetime "updated_at", null: false
     t.integer "price_diff"
     t.integer "price_percent"
+    t.boolean "notify", default: false
     t.index ["price_id"], name: "index_discounts_on_price_id"
     t.index ["product_id"], name: "index_discounts_on_product_id"
   end

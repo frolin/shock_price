@@ -68,27 +68,27 @@ services:
 #    networks:
 #      - default
 
-  chrome:
-    image: selenium/standalone-chrome-debug
-    # Debug version enables VNC ability
-    environment:
-      - NODE_MAX_INSTANCES=5
-      - SE_DRAIN_AFTER_SESSION_COUNT=5
-      - NODE_MAX_SESSION=5
-      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
-      - SCALE=4
-    shm_size: 2g
-    privileged: true
-    volumes:
-      - /dev/shm:/dev/shm
-      - ./config/chrome_profile:/home/seluser/chrome_profile
-    ports:
-      - '4444:4444'
-      - '5900:5900'
-      # Bind selenium port & VNC port
-    logging:
-      driver: none
-      # Disable noisy logs.
+#  chrome:
+#    image: selenium/standalone-chrome-debug
+#    # Debug version enables VNC ability
+#    environment:
+#      - NODE_MAX_INSTANCES=5
+#      - SE_DRAIN_AFTER_SESSION_COUNT=5
+#      - NODE_MAX_SESSION=5
+#      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+#      - SCALE=4
+#    shm_size: 2g
+#    privileged: true
+#    volumes:
+#      - /dev/shm:/dev/shm
+#      - ./config/chrome_profile:/home/seluser/chrome_profile
+#    ports:
+#      - '4444:4444'
+#      - '5900:5900'
+#      # Bind selenium port & VNC port
+#    logging:
+#      driver: none
+#      # Disable noisy logs.
 
   redis:
     image: redis

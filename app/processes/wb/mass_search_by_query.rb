@@ -13,7 +13,7 @@ module Wb
     SALE_NAME = '.product-card__tips--bottom .product-card__tip--action'
     IMAGE = '.product-card__img-wrap img'
     WOMEN_CATEGORY = ''
-    MAX_PAGE_NUMBER = 2
+    MAX_PAGE_NUMBER = 3
 
     record :category
 
@@ -36,7 +36,7 @@ module Wb
 
             @wait.until do
               while @page.find_elements(css: ".product-card-list .product-card").count <= 90
-                sleep(0.3)
+                sleep(0.5)
                 @page.execute_script("window.scrollBy(0,100)")
               end
               # rescue => e
