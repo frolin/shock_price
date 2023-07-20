@@ -14,13 +14,14 @@ module Wb
     IMAGE = '.product-card__img-wrap img'
     WOMEN_CATEGORY = ''
     MAX_PAGE_NUMBER = 2
+    EXCEPTION = Selenium::WebDriver::Error::NoSuchElementError
 
     record :category
 
     def execute
       cards = []
 
-      @wait = Selenium::WebDriver::Wait.new(timeout: 60)
+      @wait = Selenium::WebDriver::Wait.new(timeout: 60, interval: 1, message: 'Timed out after 60 sec', ignore: EXCEPTION)
       @page = Browser.new(category.url).run
       @page_number = 1
 
