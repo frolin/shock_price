@@ -106,7 +106,7 @@ module Wb
         text << "\n 🏷 <b>Категория: </b> #{product_data[:category]} \n\n"
         text << "🛍️ <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a> \n\n"
 
-        text << "❗ <b> Цена: </b> #{product_data[:old_price]} ₽  ➡ ️ #{product_data[:new_price]} ₽ \n\n"
+        text << "❗ <b> Цена: </b> <s>#{product_data[:old_price]} ₽ </s>  ➡ ️ #{product_data[:new_price]} ₽ \n\n"
 
         text << "🔥 <b> Выгода: </b> #{product_data[:price_diff]} ₽ \n "
 
