@@ -21,42 +21,39 @@ module Wb
       cards = []
 
       @wait = Selenium::WebDriver::Wait.new(timeout: 60)
-      # search
       @page = Browser.new(category.url).run
       @page_number = 1
 
       begin
-
         loop do
           break "max page, exit" if @page_number == MAX_PAGE_NUMBER
           Rails.logger.info "Категория: #{category.name}, URL: #{category.url} Страница: #{@page_number || '1'} "
 
           @current_page_number = @page_number
           # puts "Start new iteration with query: #{keyword.name}"
+          begin
+            @wait.until do
+              scroll_time = Benchmark.measure {
+                while @page.find_elements(css: ".product-card-list .product-card").count <= 90
+                  sleep(0.3)
+                  @page.execute_script("window.scrollBy(0,50)")
+                end
+              }
+              puts "Scroll time: #{scroll_time.real}"
 
-          @wait.until do
-            scroll_time = Benchmark.measure {
-              while @page.find_elements(css: ".product-card-list .product-card").count <= 90
-                sleep(0.3)
-                @page.execute_script("window.scrollBy(0,50)")
-              end
-            }
-            puts "Scroll time: #{scroll_time.real}"
+              puts 'Collecting data...'
+              collect_time = Benchmark.measure {
+                @page.find_elements(css: ".product-card-list .product-card").each_with_index do |card, idx|
+                  card = data(card, idx + 1).merge!(category_id: category.id)
+                  cards << card
+                end
+              }
+              puts "Collecting time: #{collect_time.real}"
 
-            # rescue => e
-            #   byebug
-            #   @page.execute_script("window.location.reload()")
-
-            puts 'Collecting data...'
-            collect_time = Benchmark.measure {
-              @page.find_elements(css: ".product-card-list .product-card").each_with_index do |card, idx|
-                card = data(card, idx + 1).merge!(category_id: category.id)
-                cards << card
-              end
-            }
-            puts "Collecting time: #{collect_time.real}"
-
-            Wb::DiscountImporterWorker.perform_async(cards.to_json)
+              Wb::DiscountImporterWorker.perform_async(cards.to_json)
+            end
+          rescue => e
+            @page.execute_script("window.location.reload()")
           end
 
           goto_next_page
