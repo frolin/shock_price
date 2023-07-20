@@ -34,6 +34,7 @@ module Wb
           begin
             @wait.until do
               scroll_time = Benchmark.measure {
+                sleep 1
                 while @page.find_elements(css: ".product-card-list .product-card").count <= 90
                   sleep(0.1)
                   @page.execute_script("window.scrollBy(0,10)")
