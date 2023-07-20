@@ -13,7 +13,7 @@ module Wb
     SALE_NAME = '.product-card__tips--bottom .product-card__tip--action'
     IMAGE = '.product-card__img-wrap img'
     WOMEN_CATEGORY = ''
-    MAX_PAGE_NUMBER = 3
+    MAX_PAGE_NUMBER = 2
 
     record :category
 
