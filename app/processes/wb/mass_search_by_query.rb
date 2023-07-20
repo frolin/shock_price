@@ -54,7 +54,7 @@ module Wb
 
               Wb::DiscountImporterWorker.perform_async(cards.to_json)
             end
-          rescue => e
+          rescue Selenium::WebDriver::Error::NoSuchElementError => e
             @page.execute_script("window.location.reload()")
           end
 
