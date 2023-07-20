@@ -7,5 +7,5 @@ development:
   :concurrency: 5
 :queues:
   - [default, 3]
-  - [check_discounts, 5]
   - [discounts_import, 5]
+  - [check_discounts, 5]
