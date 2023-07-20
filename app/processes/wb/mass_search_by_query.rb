@@ -35,8 +35,8 @@ module Wb
             @wait.until do
               scroll_time = Benchmark.measure {
                 while @page.find_elements(css: ".product-card-list .product-card").count <= 90
-                  sleep(0.3)
-                  @page.execute_script("window.scrollBy(0,50)")
+                  sleep(0.1)
+                  @page.execute_script("window.scrollBy(0,10)")
                 end
               }
               puts "Scroll time: #{scroll_time.real}"
