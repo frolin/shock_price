@@ -47,7 +47,7 @@ class Browser
     options.add_argument('disable-translate')
     options.add_argument("enable-aggressive-domstorage-flushing")
     options.add_argument("profiling-flush=10")
-    options.add_argument("headless")
+    # options.add_argument("headless")
     # options.add_argument("disable-logging")
     # options.add_argument('allow-profiles-outside-user-dir')
     # options.add_argument("user-data-dir=/home/seluser/chrome_profile")
