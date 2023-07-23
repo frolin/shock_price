@@ -77,6 +77,7 @@ gem 'awesome_print'
 gem 'russian'
 gem 'active_interaction'
 gem 'telegram-bot'
+gem 'faraday'
 
 gem 'sidekiq'
 gem 'sidekiq-cron'
