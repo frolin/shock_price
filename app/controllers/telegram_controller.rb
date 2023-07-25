@@ -4,8 +4,8 @@ class TelegramController < Telegram::Bot::UpdatesController
       respond_with :message, text: "found: #{user.username}"
     else
       user = User.create!(chat_id: from['id'],
-                   username: from['username'],
-                   first_name: from['first_name'])
+                          username: from['username'],
+                          first_name: from['first_name'])
 
       respond_with :message, text: "hello! #{user.username}"
     end

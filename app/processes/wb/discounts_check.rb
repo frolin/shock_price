@@ -1,5 +1,7 @@
 module Wb
   class DiscountsCheck < ActiveInteraction::Base
+    CHAT_ID = '-1001987307657'.freeze
+
     string :query
     array :pages, default: nil
 
@@ -42,6 +44,8 @@ module Wb
             @product.save
 
             Rails.logger.info("New Product created: #{@product.attributes}")
+
+            ::Wb::Parse::Products.run(product: product)
           end
 
           if @product.prices.count == 0
@@ -68,9 +72,17 @@ module Wb
               old_price: @product.prices.last(2).first.price_discount,
               new_price: @product.prices.last.price_discount,
               price_diff:,
-              image_url: @product.data['images']&.first,
+              image_urls: @product.data['images']&.first(3),
               price_history: @product.data['price_history'],
-              discount_id: discount.id
+              product_rating: @product.webapi_data['reviewRating'],
+              sale_name: @product.data['promoTextCat'],
+              sku: @product.webapi_data['id'],
+              sells_count: @product.data['sells_count'],
+              store_url: @product.data['store_url'],
+              feedbacks_count: @product.webapi_data['feedbacks'],
+              colors: @product.webapi_data['colors'].map { |c| c['name'] }.join(', '),
+              discount_id: discount.id,
+              brand: @product.webapi_data['brand']
             }
 
             Rails.logger.info("Price changed for product: #{discount}")
@@ -82,11 +94,32 @@ module Wb
 
       notify.each do |product_info|
         if product_info[:image_url].present?
-          Telegram.bot.send_photo(chat_id: User.last.chat_id,
-                                  caption: product_text(product_info), photo: product_info[:image_url], parse_mode: 'HTML')
+          media = product_info[:image_urls].map.with_index do |image_url, idx|
+            if idx == 0
+              { type: 'photo',
+                media: image_url,
+                caption: product_text(product_info),
+                parse_mode: 'HTML'
+              }
+            else
+              { type: 'photo',
+                media: image_url }
+            end
+          end
 
-        else
-          Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_text(product_info), parse_mode: "HTML")
+          Telegram.bot.send_media_group(
+            chat_id: CHAT_ID,
+            media: media,
+          )
+
+          # Telegram.bot.send_photo(
+          #   chat_id: User.last.chat_id, caption: product_text(product_info), photo: product_info[:image_url], parse_mode: 'HTML',
+          #   reply_markup: { inline_keyboard: [
+          #     [{ text: 'Посмотреть товар', url: product_info[:link] }],
+          #   ],
+          #   })
+          # else
+          # Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_text(product_info), parse_mode: "HTML")
         end
 
         discount = Discount.find_by(id: product_info[:discount_id])
@@ -97,21 +130,30 @@ module Wb
       puts "INFO: price changed count: #{price_changed.count}"
       puts "price notify: #{notify.count}"
       puts "-------------------------------------------"
-
     end
 
     private
 
     def product_text(product_data)
       text = []
+      text << "🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
 
-      text << "\n 🏷 <b>Категория: </b> #{product_data[:category]} \n\n"
-      text << "🛍️ <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a> \n\n"
+      text << "🏘 <b> Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
-      text << "❗ <b> Цена: </b> <s>#{product_data[:old_price]} ₽ </s>  ➡ ️ #{product_data[:new_price]} ₽ \n\n"
+      text << "💰 <b>Цена:</b> <s>#{product_data[:old_price]}₽</s>❗ ️ #{product_data[:new_price]}₽  \n\n"
 
-      text << "🔥 <b> Выгода: </b> #{product_data[:price_diff]} ₽ \n "
-      text << "🔥 <b> История цены: </b> #{product_data[:price_history]} ₽ \n "
+      text << "🏷 <b>Категория: </b> #{product_data[:category]} \n"
+      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]} </a>\n\n"
+
+      text << "🛍 <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a>  \n"
+      text << "🆔 <b>Артикул: </b> <a href='#{product_data[:sku]}'>#{product_data[:sku]}</a> \n"
+      text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n"
+
+      text << "👍 <b>Рейтинг: </b>#{product_data[:product_rating]} \n"
+      text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
+      text << "🔴 #{product_data[:sells_count]} \n"
+
+      text << "📈 История цены: #{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
       text.join
     end
@@ -125,6 +167,5 @@ module Wb
       Rails.logger.debug("Starting parsing #{query} with page number: 1")
       Wb::Query::Search.run!(query: query)
     end
-
   end
 end
