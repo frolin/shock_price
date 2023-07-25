@@ -1,9 +1,9 @@
 class Product < ApplicationRecord
-  has_many :prices, dependent: :destroy
   belongs_to :category
-  has_many :discounts
+  has_many :discounts, dependent: :destroy
+  has_many :prices, dependent: :destroy
 
-  store_accessor :data, :image_url
+  # store_accessor :data, :image_url
 
   def url
     data['url']
@@ -14,6 +14,10 @@ class Product < ApplicationRecord
   end
 
   def link
-    data['link']
+    data['url']
+  end
+
+  def images_url
+    data['images']
   end
 end

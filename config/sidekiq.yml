@@ -4,8 +4,9 @@ production:
 staging:
   :concurrency: 2
 development:
-  :concurrency: 5
+  :concurrency: 3
 :queues:
   - [default, 3]
   - [discounts_import, 5]
-  - [check_discounts, 5]
+  - [check_discounts, 1]
+  - [product_parsing, 1]

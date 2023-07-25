@@ -6,4 +6,6 @@ class Category < ApplicationRecord
 
   scope :with_subcategories, -> { where.not(parent_id: nil) }
   scope :parents, -> { where(parent_id: nil) }
+
+  scope :women, -> { find(21).subcategories.pluck(:name) }
 end

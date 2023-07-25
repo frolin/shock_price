@@ -1,6 +1,5 @@
 module Wb
-  class QuerySearch < ActiveInteraction::Base
-
+  class DiscountsCheck < ActiveInteraction::Base
     string :query
     array :pages, default: nil
 
@@ -15,7 +14,7 @@ module Wb
 
       return 'Нет товаров' if items.blank?
 
-      items.each_with_index do |item, page_num |
+      items.each_with_index do |item, page_num|
         item.each_with_index do |product, idx|
           position = idx + 1
           page_number = page_num
@@ -69,7 +68,8 @@ module Wb
               old_price: @product.prices.last(2).first.price_discount,
               new_price: @product.prices.last.price_discount,
               price_diff:,
-              image_url: @product.image_url,
+              image_url: @product.data['images']&.first,
+              price_history: @product.data['price_history'],
               discount_id: discount.id
             }
 
@@ -77,9 +77,44 @@ module Wb
           end
         end
       end
+
+      notify = price_changed.select { |p| p[:price_diff] > 400 }
+
+      notify.each do |product_info|
+        if product_info[:image_url].present?
+          Telegram.bot.send_photo(chat_id: User.last.chat_id,
+                                  caption: product_text(product_info), photo: product_info[:image_url], parse_mode: 'HTML')
+
+        else
+          Telegram.bot.send_message(chat_id: User.last.chat_id, text: product_text(product_info), parse_mode: "HTML")
+        end
+
+        discount = Discount.find_by(id: product_info[:discount_id])
+        discount.update(notify: true) if discount.present?
+      end
+
+      puts "-------------------------------------------"
+      puts "INFO: price changed count: #{price_changed.count}"
+      puts "price notify: #{notify.count}"
+      puts "-------------------------------------------"
+
     end
 
     private
+
+    def product_text(product_data)
+      text = []
+
+      text << "\n 🏷 <b>Категория: </b> #{product_data[:category]} \n\n"
+      text << "🛍️ <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a> \n\n"
+
+      text << "❗ <b> Цена: </b> <s>#{product_data[:old_price]} ₽ </s>  ➡ ️ #{product_data[:new_price]} ₽ \n\n"
+
+      text << "🔥 <b> Выгода: </b> #{product_data[:price_diff]} ₽ \n "
+      text << "🔥 <b> История цены: </b> #{product_data[:price_history]} ₽ \n "
+
+      text.join
+    end
 
     def get_products_by_page(page)
       Rails.logger.debug("Starting parsing #{query} with page number: #{page} ")

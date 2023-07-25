@@ -65,6 +65,10 @@
                   Новая цена
                 </th>
 
+                    <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Customer Name: activate to sort column ascending" style="text-align: center; width: 70px;">
+                  История цены
+                </th>
+
                 <th class="sorting" tabindex="0" aria-controls="invoices-list" rowspan="1" colspan="1" aria-label="Balance Due: activate to sort column ascending" style="text-align: center; width: 70px;">
                   Экономия
                 </th>
@@ -84,7 +88,7 @@
 
               <% @discounts.each do |discount| %>
                 <tr>
-                  <td><img class="img-thumbnail" src="<%= discount.product.image_url %>" alt=""></td>
+                  <td><img class="img-thumbnail" src="<%= discount.product.images_url %>" alt=""></td>
                   <td><a target="_blank" href="<%= discount.product.link %>"> <%= discount.product.name %></a></td>
                   <td><a target="_blank" href="<%= discount.product.category.parent.url %>"> <%= discount.product.category.parent.name %> </a> /
                     <a target="_blank" href="<%= discount.product.url %>"><%= discount.product.category.name %></a></td>
@@ -95,6 +99,7 @@
                   <td style=" vertical-align: middle; text-align: center">
                     <%= discount.price_diff %> ₽ / <%= discount.price_percent %> %
                   </td>
+                  <td style="vertical-align: middle; text-align: center"><%= discount.product.data['price_history'] %> </td>
                   <td style="vertical-align: middle; text-align: center"><%= discount.product.weight&.round(2) %> </td>
                   <td style="vertical-align: middle; text-align: center"><%= discount.created_at.strftime("%T") %> </td>
                   <td style="vertical-align: middle; text-align: center"><%= discount.notify %> </td>

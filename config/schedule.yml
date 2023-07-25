@@ -2,6 +2,10 @@
 
 check_new_discount:
   cron: "0 * * * *" # execute at every 30 minute
-  class: "Wb::CheckAllCategoriesWorker"
+  class: "Wb::CheckWomenCategoriesWorker"
   queue: 'check_discounts'
 
+parse_products:
+  cron: "10 * * * *" # execute at every 30 minute
+  class: "Wb::ProductsParserWorker"
+  queue: 'product_parsing'

@@ -7,10 +7,12 @@ module Wb
     class Importer < ActiveInteraction::Base
       CHAT_ID='-1001987307657'.freeze
 
-      array :products_data
+      record :category
 
       def execute
         price_changed = []
+
+        request(category.cat_id).dig()
 
         products_data.each do |product_data|
           product_data.symbolize_keys!
@@ -58,7 +60,7 @@ module Wb
               old_price: @product.prices.last(2).first.price_discount,
               new_price: @product.prices.last.price_discount,
               price_diff:,
-              image_url: @product.image_url,
+              image_url: @product.images_url.first,
               discount_id: discount.id
             }
 
@@ -68,9 +70,11 @@ module Wb
 
         notify = price_changed.select { |p| p[:price_diff] > 400 }
 
+        byebug if notify.present?
+
         notify.each do |product_info|
           if product_info[:image_url].present?
-            Telegram.bot.send_photo(chat_id: CHAT_ID,
+            Telegram.bot.send_photo(chat_id: User.last.chat_id,
                                     caption: product_text(product_info), photo: product_info[:image_url], parse_mode: 'HTML')
 
           else
@@ -111,6 +115,11 @@ module Wb
         text << "🔥 <b> Выгода: </b> #{product_data[:price_diff]} ₽ \n "
 
         text.join
+      end
+
+
+      def request(category_id)
+        "https://catalog.wb.ru/catalog/shorts/catalog?appType=1&cat=#{category_id}&curr=rub&dest=-1257786&regions=80,38,83,4,64,33,68,70,30,40,86,75,69,22,1,31,66,110,48,71,114&sort=popular&spp=0&uclusters=0"
       end
     end
   end

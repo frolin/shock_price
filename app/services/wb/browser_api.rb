@@ -12,6 +12,7 @@ module Wb
 
       response = if type == :get
                    connection.get(api_method, base_params.merge!(params))
+
                  elsif type == :post
                    connection.post(api_method) do |request|
                      request.body = params
