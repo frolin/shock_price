@@ -19,7 +19,7 @@ module Wb
       items.each_with_index do |item, page_num|
         item.each_with_index do |product, idx|
           position = idx + 1
-          page_number = page_num
+          page_number = page_num + 1
           id = product['id']
           price_full = product['priceU'] / 100
           price_discount = product['salePriceU'] / 100
@@ -94,7 +94,7 @@ module Wb
       notify = price_changed.select { |p| p[:price_diff] > 400 }
 
       notify.each do |product_info|
-        if product_info[:image_url].present?
+        if product_info[:image_urls].present?
           media = product_info[:image_urls].map.with_index do |image_url, idx|
             if idx == 0
               { type: 'photo',
