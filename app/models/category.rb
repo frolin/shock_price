@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  SUB_CATEGORIES = { women: 'Женщины', home: 'Дом', kitchen: 'Кухня' }
+  SUB_CATEGORIES = { women: 'Женщинам', home: 'Дом', kitchen: 'Кухня' }
 
   has_many :subcategories, class_name: "Category", foreign_key: "parent_id", dependent: :destroy
   belongs_to :parent, class_name: "Category", foreign_key: "parent_id", optional: true
