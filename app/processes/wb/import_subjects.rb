@@ -13,8 +13,6 @@ module Wb
           parent.subcategories.create!(name: child['name'], url: child['url'], cat_id: child['id'])
         end
       end
-
     end
-
   end
 end

@@ -4,7 +4,6 @@ module Wb
       record :product
 
       def execute
-
         product.transaction do
           product.update!(data: product_data)
 
