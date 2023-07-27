@@ -43,7 +43,7 @@ module Wb
             @product.data.merge!(position: position, page_number:)
             @product.save
 
-            Rails.logger.info("New Product created: #{@product.attributes}")
+            Rails.logger.info("New Product created: #{@product.id}")
 
             parse_product = ::Wb::Parse::Products.run(product: @product)
             Rails.logger.info("New Product parsed: #{parse_product.valid?}")
