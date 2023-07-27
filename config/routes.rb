@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   resources :discounts
+
   # Defines the root path route ("/")
-  # root "articles#index"
+  root "discounts#index"
 end
