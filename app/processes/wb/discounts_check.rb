@@ -43,7 +43,7 @@ module Wb
             @product.data.merge!(position: position, page_number:)
             @product.save
 
-            Rails.logger.info("New Product created: #{@product.id}")
+            Rails.logger.info("New Product created in #{category}: #{@product.name} ")
             Wb::ParseProductWorker.perform_async(@product.sku)
           end
 
