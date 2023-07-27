@@ -1,11 +1,11 @@
 #https://crontab.guru/
 
-check_new_discount:
-  cron: "30 * * * *" # execute at every 30 minute
+check_women_discount:
+  cron: "*/30 * * * *" # execute at every 30 minute
   class: "Wb::CheckWomenCategoriesWorker"
   queue: 'check_discounts'
 
-parse_products:
-  cron: "10 * * * *" # execute at every 30 minute
-  class: "Wb::ProductsParserWorker"
-  queue: 'product_parsing'
+#parse_products:
+#  cron: "*/10 * * * *" # execute at every 30 minute
+#  class: "Wb::ProductsParserWorker"
+#  queue: 'product_parsing'
