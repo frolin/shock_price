@@ -45,8 +45,8 @@ module Wb
 
             Rails.logger.info("New Product created: #{@product.attributes}")
 
-            ::Wb::Parse::Products.run(product: @product)
-             Rails.logger.info("New Product parsed: #{@product.data}")
+            parse_product = ::Wb::Parse::Products.run(product: @product)
+            Rails.logger.info("New Product parsed: #{parse_product.valid?}")
           end
 
           if @product.prices.count == 0
