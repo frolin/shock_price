@@ -44,9 +44,7 @@ module Wb
             @product.save
 
             Rails.logger.info("New Product created: #{@product.id}")
-
-            parse_product = ::Wb::Parse::Products.run(product: @product)
-            Rails.logger.info("New Product parsed: #{parse_product.valid?}")
+            Wb::ParseProductWorker.perform_async(@product.sku)
           end
 
           if @product.prices.count == 0
