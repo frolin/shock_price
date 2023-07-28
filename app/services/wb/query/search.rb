@@ -38,7 +38,7 @@ module Wb
           dest: -1257786,
           resultset: 'catalog',
           suppressSpellcheck: false,
-          page: page || '1'
+          page: page || 1
         }
       end
     end

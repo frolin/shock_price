@@ -5,7 +5,12 @@ check_women_discount:
   class: "Wb::CheckWomenCategoriesWorker"
   queue: 'check_discounts'
 
-#parse_products:
-#  cron: "*/10 * * * *" # execute at every 30 minute
-#  class: "Wb::ProductsParserWorker"
-#  queue: 'product_parsing'
+check_women_discount:
+  cron: "0 * * * *" # execute at every 30 minute
+  class: "Wb::CheckHomeCategoriesWorker"
+  queue: 'check_discounts'
+
+parse_products:
+  cron: "*/10 * * * *" # execute at every 30 minute
+  class: "Wb::ProductsParserWorker"
+  queue: 'product_parsing'

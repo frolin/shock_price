@@ -122,7 +122,7 @@ module Wb
         end
 
         discount = Discount.find_by(id: product_info[:discount_id])
-        discount.update(notify: true) if discount.present?
+        discount.update(notify: true, notify_at: Time.now) if discount.present?
       end
 
       puts "-------------------------------------------"
@@ -137,9 +137,9 @@ module Wb
       text = []
       text << "🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
 
-      text << "🏘 <b> Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
+      text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
-      text << "💰 <b>Цена:</b> <s>#{product_data[:old_price]}₽</s>❗ ️ #{product_data[:new_price]}₽  \n\n"
+      text << "💰 <b>Цена: </b>#{product_data[:new_price]}₽ ❗ <s>#{product_data[:old_price]}₽</s> ️  \n\n"
 
       text << "🏷 <b>Категория: </b> #{product_data[:category]} \n"
       text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]} </a>\n\n"
@@ -152,7 +152,7 @@ module Wb
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
       text << "🔴 #{product_data[:sells_count]} \n"
 
-      text << "📈 История цены: #{product_data[:price_history]}₽ \n" if product_data[:price_history]
+      text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
       text.join
     end
