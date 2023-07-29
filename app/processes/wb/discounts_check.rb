@@ -23,7 +23,7 @@ module Wb
           id = product['id']
           price_full = product['priceU'] / 100
           price_discount = product['salePriceU'] / 100
-          category_id = product['subjectId']
+          subject_id = product['subjectId']
           sale_name = product['promoTextCard']
 
           @product = Product.find_by(sku: id)
@@ -35,15 +35,15 @@ module Wb
           end
 
           if @product.blank?
-            category = Category.find_by(cat_id: category_id)
-            next if category.blank?
+            subject = Subject.find_by(cat_id: subject_id)
+            next if subject.blank?
 
-            @product = Product.create!(sku: id, webapi_data: product, name: product['name'], category_id: category.id)
+            @product = Product.create!(sku: id, webapi_data: product, name: product['name'], subject_id: subject.id)
 
             @product.data.merge!(position: position, page_number:)
             @product.save
 
-            Rails.logger.info("New Product created in #{category}: #{@product.name} ")
+            Rails.logger.info("New Product created in #{subject}: #{@product.name} ")
             Wb::ParseProductWorker.perform_async(@product.sku)
           end
 
@@ -67,7 +67,7 @@ module Wb
             price_changed << {
               name: @product.name,
               link: @product.link,
-              category: @product.category.name,
+              subject: @product.subject.name,
               old_price: @product.prices.last(2).first.price_discount,
               new_price: @product.prices.last.price_discount,
               price_diff:,
@@ -141,7 +141,7 @@ module Wb
 
       text << "💰 <b>Цена: </b>#{product_data[:new_price]}₽ ❗ <s>#{product_data[:old_price]}₽</s> ️  \n\n"
 
-      text << "🏷 <b>Категория: </b> #{product_data[:category]} \n"
+      text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
       text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]} </a>\n\n"
 
       text << "🛍 <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a>  \n"
