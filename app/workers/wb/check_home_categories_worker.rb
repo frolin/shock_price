@@ -3,8 +3,8 @@ module Wb
     include Sidekiq::Worker
 
     def perform
-      Keyword.pluck(:name).each do |category_name|
-        ::Wb::CheckDiscountsWorker.perform_async(category_name)
+      Keyword.pluck(:name).each do |name|
+        ::Wb::CheckDiscountsWorker.perform_async(name)
       end
     end
   end

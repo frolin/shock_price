@@ -43,7 +43,7 @@ module Wb
             @product.data.merge!(position: position, page_number:)
             @product.save
 
-            Rails.logger.info("New Product created in #{subject}: #{@product.name} ")
+            Rails.logger.info("New Product created in #{subject.name}: #{@product.name} ")
             Wb::ParseProductWorker.perform_async(@product.sku)
           end
 
@@ -135,7 +135,7 @@ module Wb
 
     def product_text(product_data)
       text = []
-      text << "🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
+      text << "🛍 🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
 
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
