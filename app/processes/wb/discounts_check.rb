@@ -3,6 +3,7 @@ module Wb
     CHAT_ID = '-1001987307657'.freeze
 
     string :query
+    integer :notify_price
     array :pages, default: nil
 
     def execute
@@ -89,7 +90,7 @@ module Wb
         end
       end
 
-      notify = price_changed.select { |p| p[:price_diff] > 200 }
+      notify = price_changed.select { |p| p[:price_diff] > notify_price }
 
       notify.each do |product_info|
         if product_info[:image_urls].present?

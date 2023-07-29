@@ -4,7 +4,7 @@ module Wb
 
     def perform
       Subject.women.each do |subject_name|
-        ::Wb::CheckDiscountsWorker.perform_async(subject_name, [1,2,3])
+        ::Wb::CheckDiscountsWorker.perform_async(subject_name, [1,2,3], 200)
       end
     end
   end
