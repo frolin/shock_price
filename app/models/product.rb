@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  belongs_to :category
+  belongs_to :subject
   has_many :discounts, dependent: :destroy
   has_many :prices, dependent: :destroy
 
