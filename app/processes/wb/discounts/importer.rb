@@ -7,12 +7,12 @@ module Wb
     class Importer < ActiveInteraction::Base
       CHAT_ID='-1001987307657'.freeze
 
-      record :category
+      record :subject
 
       def execute
         price_changed = []
 
-        request(category.cat_id).dig()
+        request(subject.cat_id).dig()
 
         products_data.each do |product_data|
           product_data.symbolize_keys!

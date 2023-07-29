@@ -4,8 +4,8 @@ module Wb
 
     sidekiq_options queue: :check_discounts, retry: 3
 
-    def perform(category_name, pages=nil)
-      ::Wb::DiscountsCheck.run!(query: category_name, pages: pages)
+    def perform(subject_name, pages=nil)
+      ::Wb::DiscountsCheck.run!(query: subject_name, pages: pages)
     end
   end
 end
