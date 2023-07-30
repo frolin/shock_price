@@ -90,7 +90,7 @@ module Wb
         end
       end
 
-      notify = price_changed.select { |p| p[:price_diff] > notify_price }
+      notify = price_changed.select { |p| p[:price_diff] >= notify_price }
 
       notify.each do |product_info|
         if product_info[:image_urls].present?
@@ -136,24 +136,24 @@ module Wb
 
     def product_text(product_data)
       text = []
-      text << "🛍 🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
+      text << "🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
 
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
       text << "💰 <b>Цена: </b>#{product_data[:new_price]}₽ ❗ <s>#{product_data[:old_price]}₽</s> ️  \n\n"
 
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
-      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]} </a>\n\n"
+      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n\n"
 
       text << "🛍 <b>Товар: </b> <a href='#{product_data[:link]}'>#{product_data[:name]}</a>  \n"
-      text << "🆔 <b>Артикул: </b> <a href='#{product_data[:sku]}'>#{product_data[:sku]}</a> \n"
+      text << "🆔 <b>Артикул: </b> #{product_data[:sku]} \n"
       text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n"
 
       text << "👍 <b>Рейтинг: </b>#{product_data[:product_rating]} \n"
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
       text << "🔴 #{product_data[:sells_count]} \n"
 
-      text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
+      # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
       text.join
     end
