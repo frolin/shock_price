@@ -143,9 +143,9 @@ module Wb
       text << "💰 <b>Цена: </b>#{product_data[:new_price]}₽ ❗ <s>#{product_data[:old_price]}₽</s> ️  \n\n"
 
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
+      text << "🛍 <b>Товар: </b> #{product_data[:name]} \n"
       text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n\n"
 
-      text << "🛍 <b>Товар: </b> #{product_data[:name]} \n"
       text << "🆔 <b>Артикул: </b> #{product_data[:sku]} \n"
       text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n"
 
@@ -153,8 +153,7 @@ module Wb
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
       text << "🔴 #{product_data[:sells_count]} \n\n"
 
-
-      text << "<a href='#{product_data[:link]}'>Посмотреть товар</a> \n"
+      text << "👉 <a href='#{product_data[:link]}'>Посмотреть товар Wildberries</a> \n"
 
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
