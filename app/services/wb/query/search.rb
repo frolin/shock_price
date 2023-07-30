@@ -29,7 +29,7 @@ module Wb
         {
           TestGroup: 'test_1',
           query: query,
-          spp: 0,
+          spp: 30,
           appType: 1,
           curr: 'rub',
           regions: '80,38,83,4,64,33,68,70,30,40,86,75,69,22,1,31,66,110,48,71,114',

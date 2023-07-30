@@ -153,7 +153,7 @@ module Wb
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
       text << "🔴 #{product_data[:sells_count]} \n\n"
 
-      text << "👉 <a href='#{product_data[:link]}'>Посмотреть товар Wildberries</a> \n"
+      text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n"
 
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
