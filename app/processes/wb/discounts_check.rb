@@ -52,7 +52,7 @@ module Wb
           if @product.prices.count == 0
             @product.prices.create!(data: { price_discount:, price_full: })
           elsif @product.prices.last.price_discount > price_discount
-            price_diff = @product.prices.last.price_discount - price_discount
+            price_diff = @product.prices.last.price_full - price_discount
             b = (@product.prices.last.price_discount + price_discount) / 2
 
             new_price = @product.prices.create!(data: { price_discount:, price_full: })
@@ -70,10 +70,11 @@ module Wb
               name: @product.name,
               link: @product.link,
               subject: @product.subject.name,
-              old_price: @product.prices.last(2).first.price_discount,
-              new_price: @product.prices.last.price_discount,
+              old_price: discount.price.price_full,
+              new_price: discount.price.price_discount,
               price_diff:,
               image_urls: @product.data['images']&.first(3),
+              video: @product.data['video'],
               price_history: @product.data['price_history'],
               product_rating: @product.webapi_data['reviewRating'],
               sale_name: @product.data['promoTextCat'],
@@ -83,7 +84,7 @@ module Wb
               feedbacks_count: @product.webapi_data['feedbacks'],
               colors: @product.webapi_data['colors'].map { |c| c['name'] }.join(', '),
               discount_id: discount.id,
-              brand: @product.webapi_data['brand']
+              brand: @product.webapi_data['brand'],
             }
 
             Rails.logger.info("Price changed for product: #{discount}")
@@ -95,8 +96,17 @@ module Wb
 
       notify.each do |product_info|
         if product_info[:image_urls].present?
-          media = product_info[:image_urls].map.with_index do |image_url, idx|
-            if idx == 0
+          media = []
+
+          if product_info[:video].present?
+            media << { type: 'video',
+                       media: product_info[:video],
+                       caption: product_text(product_info),
+                       parse_mode: 'HTML' }
+          end
+
+          media << product_info[:image_urls].map.with_index do |image_url, idx|
+            if idx == 0 && product_info[:video].blank?
               { type: 'photo',
                 media: image_url,
                 caption: product_text(product_info),
@@ -110,7 +120,7 @@ module Wb
 
           Telegram.bot.send_media_group(
             chat_id: CHAT_ID,
-            media: media,
+            media: media.flatten,
           )
 
           # Telegram.bot.send_photo(
@@ -137,7 +147,6 @@ module Wb
 
     def product_text(product_data)
       text = []
-      text << "#женщинам"
 
       text << "🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
 
@@ -155,11 +164,10 @@ module Wb
       text << "👍 <b>Рейтинг: </b>#{product_data[:product_rating]} \n"
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
       text << "🔴 #{product_data[:sells_count]} \n\n"
+      text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
-      text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n"
-
-
-      # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
+      text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n\n"
+      text << "##{tag} ##{product_data[:subject]&.downcase}"
 
       text.join
     end
