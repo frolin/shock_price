@@ -1,6 +1,6 @@
 module Wb
   class DiscountsCheck < ActiveInteraction::Base
-    CHAT_ID = '-1001987307657'.freeze
+    CHAT_ID = '-1001670915358'.freeze
 
     string :query
     string :tag
