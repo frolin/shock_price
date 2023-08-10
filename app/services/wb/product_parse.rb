@@ -2,7 +2,7 @@ module Wb
   class ProductParse < ActiveInteraction::Base
     SEARCH_CSS = {
       images: '.j-zoom-image',
-      video: '.wb-player__video video',
+      video: '.wb-player__video',
       reviews_count: '.product-review__count-review',
       questions_count: '#a-Questions',
       rating: '.user-opinion__rating',
@@ -73,9 +73,9 @@ module Wb
     end
 
     def find_video
-      find_element(type: :css, name: SEARCH_CSS[:video]) do
-        @page.find_element(css: SEARCH_CSS[:video]).attribute('src')
-      end
+      @page.find_element(css: SEARCH_CSS[:video]).attribute('src')
+    rescue
+      nil
     end
 
     def find_questions
