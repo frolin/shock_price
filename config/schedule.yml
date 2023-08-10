@@ -10,6 +10,11 @@ check_home_discount:
   class: "Wb::CheckHomeCategoriesWorker"
   queue: 'check_discounts'
 
+check_gadget_discount:
+  cron: "*/15 * * * *" # execute at every 30 minute
+  class: "::Wb::CheckGadgetCategoriesWorker"
+  queue: 'check_discounts'
+
 parse_products:
   cron: "*/10 * * * *" # execute at every 30 minute
   class: "Wb::ProductsParserWorker"

@@ -3,6 +3,7 @@ module Wb
     CHAT_ID = '-1001987307657'.freeze
 
     string :query
+    string :tag
     integer :notify_price
     array :pages, default: nil
 
@@ -154,6 +155,8 @@ module Wb
       text << "🔴 #{product_data[:sells_count]} \n\n"
 
       text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n"
+      text << "##{tag}"
+
 
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 

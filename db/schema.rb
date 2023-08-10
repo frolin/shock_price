@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_01_115744) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_172035) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,8 +31,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_115744) do
     t.boolean "notify", default: false
     t.datetime "notify_at"
     t.integer "status", default: 0
+    t.string "category_name"
     t.index ["price_id"], name: "index_discounts_on_price_id"
     t.index ["product_id"], name: "index_discounts_on_product_id"
+    t.index ["status"], name: "index_discounts_on_status"
   end
 
   create_table "keywords", force: :cascade do |t|
@@ -41,6 +43,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_115744) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_keywords_on_category_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.datetime "datetime"
+    t.jsonb "data", default: {}
+    t.bigint "product_id"
+    t.bigint "schedule_id"
+    t.bigint "discount_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discount_id"], name: "index_notifications_on_discount_id"
+    t.index ["product_id"], name: "index_notifications_on_product_id"
+    t.index ["schedule_id"], name: "index_notifications_on_schedule_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -63,6 +79,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_115744) do
     t.boolean "parsed", default: false
     t.index ["sku"], name: "index_products_on_sku", unique: true
     t.index ["subject_id"], name: "index_products_on_subject_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.date "datetime"
+    t.integer "notify_type"
+    t.integer "target"
+    t.integer "status"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "category_name"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string "step_size"
+    t.string "chat_id"
+    t.index ["category_id"], name: "index_schedules_on_category_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -89,6 +121,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_115744) do
   add_foreign_key "discounts", "prices"
   add_foreign_key "discounts", "products"
   add_foreign_key "keywords", "categories"
+  add_foreign_key "notifications", "discounts"
+  add_foreign_key "notifications", "products"
+  add_foreign_key "notifications", "schedules"
   add_foreign_key "prices", "products"
+  add_foreign_key "products", "subjects"
   add_foreign_key "products", "subjects"
 end

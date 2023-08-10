@@ -12,8 +12,6 @@ module Wb
       def execute
         price_changed = []
 
-        request(subject.cat_id).dig()
-
         products_data.each do |product_data|
           product_data.symbolize_keys!
           sku = product_data.delete(:sku)
@@ -70,7 +68,6 @@ module Wb
 
         notify = price_changed.select { |p| p[:price_diff] > 400 }
 
-        byebug if notify.present?
 
         notify.each do |product_info|
           if product_info[:image_url].present?
