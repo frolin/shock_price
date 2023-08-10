@@ -137,6 +137,8 @@ module Wb
 
     def product_text(product_data)
       text = []
+      text << "#женщинам"
+
       text << "🔥 <b>Выгода: #{product_data[:price_diff]}₽</b> \n"
 
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
@@ -155,7 +157,6 @@ module Wb
       text << "🔴 #{product_data[:sells_count]} \n\n"
 
       text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n"
-      text << "##{tag}"
 
 
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
