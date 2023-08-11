@@ -148,12 +148,12 @@ module Wb
     def product_text(product_data)
       text = []
 
-      text << "🔥<u><b>Выгода — #{product_data[:price_diff]}₽</b></u>🔥 \n "
-      text << "————————————— \n"
+      text << "🔥<b>Выгода — #{product_data[:price_diff]}₽</b>🔥 \n "
+      text << "<hr> \n"
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
-      text << "💰 <b>Цена:</b><u>#{product_data[:new_price]}₽</u> ❗ <s>#{product_data[:old_price]}₽</s> ️  \n"
-      text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
+      text << "💰 <b>Цена: </b><u>#{product_data[:new_price]}₽</u> ❗ <s>#{product_data[:old_price]}₽</s> ️  \n"
+      # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
       text << "🛍 <b>Товар: </b> #{product_data[:name]} \n"
       text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n\n"
