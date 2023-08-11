@@ -167,7 +167,10 @@ module Wb
       text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n" if product_data[:price_history]
 
       text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n\n"
-      text << "##{tag} ##{product_data[:subject]&.downcase&.underscore}"
+
+
+
+      text << "##{Date.current.strftime('%m.%d.%Y')}_#{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
 
       text.join
     end
