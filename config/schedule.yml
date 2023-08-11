@@ -1,7 +1,7 @@
 #https://crontab.guru/
 
 check_women_discount:
-  cron: "*/30 * * * *" # execute at every 30 minute
+  cron: "*30 * * * *" # execute at every 30 minute
   class: "Wb::CheckWomenCategoriesWorker"
   queue: 'check_discounts'
 
@@ -11,7 +11,7 @@ check_home_discount:
   queue: 'check_discounts'
 
 check_gadget_discount:
-  cron: "*/15 * * * *" # execute at every 30 minute
+  cron: "*15 * * * *" # execute at every 30 minute
   class: "::Wb::CheckGadgetCategoriesWorker"
   queue: 'check_discounts'
 
