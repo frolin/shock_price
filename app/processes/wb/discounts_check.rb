@@ -40,7 +40,7 @@ module Wb
             subject = Subject.find_by(cat_id: subject_id)
             next if subject.blank?
 
-            @product = Product.create!(sku: id, webapi_data: product, name: product['name'], subject_id: subject.id)
+            @product = Product.create!(sku: id, webapi_data: product, name: product['name'], subject: subject.id)
 
             @product.data.merge!(position: position, page_number:)
             @product.save
