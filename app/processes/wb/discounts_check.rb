@@ -148,7 +148,7 @@ module Wb
     def product_text(product_data)
       text = []
 
-      text << "🔥<u><b>Выгода -- #{product_data[:price_diff]}₽</b></u>🔥 \n "
+      text << "🔥<u><b>Выгода — #{product_data[:price_diff]}₽</b></u>🔥 \n "
       text << "————————————— \n"
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
