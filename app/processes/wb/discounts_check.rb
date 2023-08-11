@@ -170,7 +170,7 @@ module Wb
 
 
 
-      text << "##{Date.current.strftime('%m.%d.%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
+      text << "##{Date.current.strftime('%m_%d_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
 
       text.join
     end
