@@ -1,6 +1,6 @@
 module Wb
   class DiscountsCheck < ActiveInteraction::Base
-    CHAT_ID = '-1001670915358'.freeze
+    CHAT_ID = Rails.env.production? ? '-1001670915358' : User.last.chat_id
 
     string :query
     string :tag
@@ -152,16 +152,16 @@ module Wb
       text << "⸻⸻⸻⸻⸻⸻\n"
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
-      text << "💰 <b>Цена: </b><u>#{product_data[:new_price]}₽</u> ❗ <s>#{product_data[:old_price]}₽</s> ️ \n"
+      text << "💰 <b>Цена: #{product_data[:new_price]}₽</b> | ❗ <s>#{product_data[:old_price]}₽</s> ️ \n"
       text << "🔴 #{product_data[:sells_count]} \n" if product_data[:sells_count]&.to_i > 50
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
       text << "\n🛍 <b>Товар: </b> #{product_data[:name]} \n"
-      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n"
+      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a> \n"
       text << "🆔 <b>Артикул: </b> `#{product_data[:sku]}` \n"
       text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n" if product_data[:colors]
 
-      text << "\n👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> 👈\n"
+      text << "\n 👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> 👈 \n"
 
       text << "⭐️⭐️⭐️⭐️⭐️#{product_data[:product_rating]} | 🗣️️ #{product_data[:feedbacks_count]} \n\n"
 
