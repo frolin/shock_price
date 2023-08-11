@@ -152,7 +152,7 @@ module Wb
       text << "————————————— \n"
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
-      text << "💰 <b>Цена: <u></b>#{product_data[:new_price]}₽</u> ❗ <s>#{product_data[:old_price]}₽</s> ️  \n"
+      text << "💰 <b>Цена:</b><u>#{product_data[:new_price]}₽</u> ❗ <s>#{product_data[:old_price]}₽</s> ️  \n"
       text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
       text << "🛍 <b>Товар: </b> #{product_data[:name]} \n"
