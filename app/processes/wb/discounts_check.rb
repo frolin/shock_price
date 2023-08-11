@@ -159,7 +159,7 @@ module Wb
       text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n\n"
 
       text << "🆔 <b>Артикул: </b> \`#{product_data[:sku]}\` \n"
-      text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n"
+      text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n" if product_data[:colors]
 
       text << "👍 <b>Рейтинг: </b>#{product_data[:product_rating]} \n"
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
