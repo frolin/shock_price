@@ -3,8 +3,10 @@ module Wb
     include Sidekiq::Worker
 
     def perform
-      Keyword.pluck(:name).each do |name|
-        ::Wb::CheckDiscountsWorker.perform_async(name, 'женщины', [1], 50)
+      category = Category.find_by!(name: 'Кухня')
+
+      category.keywords.pluck(:name).each do |name|
+        ::Wb::CheckDiscountsWorker.perform_async(name, 'женщины', [1,2,3], 50)
       end
 
        ::Wb::CheckDiscountsWorker.perform_async('Кухня', 'женщины', [1,2,3,4,5], 50)
