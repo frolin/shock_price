@@ -158,17 +158,14 @@ module Wb
       text << "🛍 <b>Товар: </b> #{product_data[:name]} \n"
       text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n\n"
 
-      text << "🆔 <b>Артикул: </b> #{product_data[:sku]} \n"
+      text << "🆔 <b>Артикул: </b> `#{product_data[:sku]}` \n"
       text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n"
 
       text << "👍 <b>Рейтинг: </b>#{product_data[:product_rating]} \n"
       text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
       text << "🔴 #{product_data[:sells_count]} \n\n"
 
-
       text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n\n"
-
-
 
       text << "##{Date.current.strftime('%m_%d_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
 
