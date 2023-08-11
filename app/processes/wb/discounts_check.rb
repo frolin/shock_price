@@ -149,25 +149,23 @@ module Wb
       text = []
 
       text << "🔥<b>Выгода — #{product_data[:price_diff]}₽</b>🔥 \n "
-      text << "<hr> \n"
+      text << "⸻⸻⸻⸻⸻⸻\n"
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
       text << "💰 <b>Цена: </b><u>#{product_data[:new_price]}₽</u> ❗ <s>#{product_data[:old_price]}₽</s> ️  \n"
+      text << "🔴 #{product_data[:sells_count]} \n\n" if product_data[:sells_count] > 100
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
       text << "🛍 <b>Товар: </b> #{product_data[:name]} \n"
-      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n\n"
-
+      text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a>\n"
       text << "🆔 <b>Артикул: </b> \`#{product_data[:sku]}\` \n"
       text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n\n" if product_data[:colors]
 
-      text << "👍 <b>Рейтинг: </b>#{product_data[:product_rating]} \n"
-      text << "🗣️️ <b>Отзывы: </b>#{product_data[:feedbacks_count]} \n"
-      text << "🔴 #{product_data[:sells_count]} \n\n"
+      text << "⭐️⭐️⭐️⭐️⭐️#{product_data[:product_rating]} | 🗣️️ #{product_data[:feedbacks_count]} \n"
 
-      text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> \n\n"
+      text << "👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> 👈\n\n"
 
-      text << "##{Date.current.strftime('%m_%d_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
+      text << "##{Date.current.strftime('%d_%m_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
 
       text.join
     end
