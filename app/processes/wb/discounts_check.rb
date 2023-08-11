@@ -72,7 +72,7 @@ module Wb
               subject: @product.subject.name,
               old_price: discount.price.price_full,
               new_price: discount.price.price_discount,
-              price_diff:,
+              price_diff: discount.price_diff,
               image_urls: @product.data['images']&.first(3),
               video: @product.data['video'],
               price_history: @product.data['price_history'],
