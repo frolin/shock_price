@@ -1,6 +1,6 @@
 ---
 app_name:           shock_price
-domain:             "shock-price.online"
+domain:             "real-sales.ru"
 deploy_user:        deployer
 deploy_group:       "{{ deploy_user }}"
 deploy_user_path:   "/home/{{ deploy_user }}"
