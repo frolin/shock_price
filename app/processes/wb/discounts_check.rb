@@ -165,7 +165,6 @@ module Wb
 
       text << "⭐️⭐️⭐️⭐️⭐️#{product_data[:product_rating]} | 🗣️️ #{product_data[:feedbacks_count]} \n\n"
 
-
       text << "##{Date.current.strftime('%d_%m_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
 
       text.join
