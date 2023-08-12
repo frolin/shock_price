@@ -149,7 +149,7 @@ module Wb
       text = []
 
       text << "🔥<b>Выгода — #{product_data[:price_diff]}₽</b>🔥 \n "
-      text << "⸻⸻⸻⸻⸻⸻\n"
+      text << "⸻⸻⸻⸻⸻\n"
       text << "🏘 <b>Акция: </b> #{product_data[:sale_name]}\n \n" if product_data[:sale_name]
 
       text << "💰 <b>Цена: #{product_data[:new_price]}₽</b> | ❗ <s>#{product_data[:old_price]}₽</s> ️ \n"
