@@ -6,7 +6,7 @@ deploy_group:       "{{ deploy_user }}"
 deploy_user_path:   "/home/{{ deploy_user }}"
 
 # App Git repo
-app_git_repo:       "https://github.com/frolin/market_analytics.git"
+app_git_repo:       "https://github.com/frolin/shock_price.git"
 app_git_branch:     "master"
 
 # Rails app
