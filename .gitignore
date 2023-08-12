@@ -38,3 +38,5 @@
 /node_modules
 /ansible-rails
 /ansible-rails/
+
+/config/credentials/production.key
