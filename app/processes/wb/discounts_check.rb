@@ -156,16 +156,14 @@ module Wb
       text << "🔴 #{product_data[:sells_count]} \n" if product_data[:sells_count]&.to_i > 50
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
-      text << "🆔 <b>Артикул: </b> `#{product_data[:sku]}` \n\n"
+      text << "🆔 <b>Артикул: </b> `#{product_data[:sku]}` \n"
       text << "\n 👉 <a href='#{product_data[:link]}'>#{product_data[:name]}</a> 👈 \n"
       # text << "\n🛍 <b>Товар: </b> #{product_data[:name]} \n"
       # text << "🏷 <b>Бренд: </b> <a href='#{product_data[:store_url]}'>#{product_data[:brand]}</a> \n"
 
       # text << "🏳 <b>Цвета: </b>#{product_data[:colors]} \n" if product_data[:colors]
 
-
-
-      text << "\n⭐️⭐️⭐️⭐️⭐️#{product_data[:product_rating]} | 🗣️️ #{product_data[:feedbacks_count]} \n\n"
+      text << "\n⭐️⭐️⭐️⭐️⭐ ️#{product_data[:product_rating]} | 🗣️️ #{product_data[:feedbacks_count]} \n\n"
 
       text << "##{Date.current.strftime('%d_%m_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
 
