@@ -181,7 +181,7 @@ module Wb
     end
 
     def format_price(price)
-      number_to_currency(price, unit: "₽", delimiter: " ", precision: 0)
+      ApplicationController.helpers.number_to_currency(price, unit: "₽", delimiter: " ", precision: 0)
     end
   end
 end
