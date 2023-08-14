@@ -92,7 +92,7 @@ module Wb
         end
       end
 
-      notify = price_changed.select { |p| p[:price_diff] >= notify_price && p[:feedbacks_count] > 10 && p[:product_rating] > 4  }
+      notify = price_changed.select { |p| p[:price_diff] >= notify_price && p[:feedbacks_count] > 30 && p[:product_rating] > 4  }
 
       notify.each do |product_info|
         if product_info[:image_urls].present?
