@@ -156,7 +156,7 @@ module Wb
       # text << "🔴 #{product_data[:sells_count]} \n" if product_data[:sells_count]&.to_i > 50
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
-      text << "\n🆔 <b>Артикул: </b> `#{product_data[:sku]}"
+      text << "\n🆔 <b>Артикул: </b> `#{product_data[:sku]}`"
       text << "\n #{product_data[:name]} \n"
 
       text << "\n 👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> 👈 \n"
