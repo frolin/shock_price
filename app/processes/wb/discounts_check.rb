@@ -52,11 +52,9 @@ module Wb
           if @product.prices.count == 0
             @product.prices.create!(data: { price_discount:, price_full: })
           elsif @product.prices.last.price_discount > price_discount
-            price_diff = @product.prices.last.price_full - price_discount
-            b = (@product.prices.last.price_discount + price_discount) / 2
-
             new_price = @product.prices.create!(data: { price_discount:, price_full: })
-
+            price_diff = new_price.price_diff
+            b = (@product.prices.last.price_discount + price_discount) / 2
             # (a — b) / [ (a + b) / 2 ] | * 100 %
             price_percent = (price_diff / b.to_f) * 100
 
@@ -92,7 +90,7 @@ module Wb
         end
       end
 
-      notify = price_changed.select { |p| p[:price_diff] >= notify_price && p[:feedbacks_count] > 30 && p[:product_rating] > 4  }
+      notify = price_changed.select { |p| p[:price_diff] >= notify_price && p[:feedbacks_count] > 30 && p[:product_rating] > 4 }
 
       notify.each do |product_info|
         if product_info[:image_urls].present?

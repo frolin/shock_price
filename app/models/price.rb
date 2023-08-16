@@ -6,6 +6,10 @@ class Price < ApplicationRecord
 
   # after_commit :notify
 
+  def price_diff
+    price_full - price_discount
+  end
+
   def notify
     Telegram::Notifications::AdsApi.new(self).call
   end
