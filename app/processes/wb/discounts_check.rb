@@ -149,15 +149,13 @@ module Wb
       text = []
 
       text << "🔥<b>Выгода #{format_price(product_data[:price_diff])}</b>🔥 \n "
-      text << "\n"
-      text << "🏘 Акция <b>#{format_price(product_data[:sale_name])}</b> \n \n" if product_data[:sale_name]
-
+      # text << "🏘 Акция <b>#{format_price(product_data[:sale_name])}</b> \n \n" if product_data[:sale_name]
       text << "💰Цена <b>#{format_price(product_data[:new_price])}</b> ❗<s>#{format_price(product_data[:old_price])}</s> ️\n"
       # text << "🔴 #{product_data[:sells_count]} \n" if product_data[:sells_count]&.to_i > 50
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
-      text << "\n🆔 <b>Артикул: </b> `#{product_data[:sku]}`"
-      text << "\n #{product_data[:name]} \n"
+      # text << "\n🆔 <b>Артикул: </b> `#{product_data[:sku]}`"
+      text << "\n#{product_data[:name]}\n"
 
       text << "\n 👉 <a href='#{product_data[:link]}'>Товар на Wildberries</a> 👈 \n"
 
@@ -166,7 +164,7 @@ module Wb
 
       text << "\n⭐️⭐️⭐️⭐️⭐ ️#{product_data[:product_rating]} | 🗣️️ #{product_data[:feedbacks_count]} \n\n"
 
-      # text << "##{Date.current.strftime('%d_%m_%Y')}_#{tag} ##{tag} ##{product_data[:subject]&.downcase&.split&.join('_')}"
+      # text << "##{product_data[:subject]&.downcase&.split&.join('_')}"
       text.join
     end
 
