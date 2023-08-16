@@ -148,9 +148,9 @@ module Wb
     def product_text(product_data)
       text = []
 
-      text << "🔥<b>Выгода #{format_price(product_data[:price_diff])}</b>🔥 \n "
+      text << "🔥<b>Выгода #{format_price(product_data[:price_diff])}</b>🔥\n "
       # text << "🏘 Акция <b>#{format_price(product_data[:sale_name])}</b> \n \n" if product_data[:sale_name]
-      text << "💰Цена <b>#{format_price(product_data[:new_price])}</b> ❗<s>#{format_price(product_data[:old_price])}</s> ️\n"
+      text << "💰Цена<b>#{format_price(product_data[:new_price])}</b>❗<s>#{format_price(product_data[:old_price])}</s> ️\n"
       # text << "🔴 #{product_data[:sells_count]} \n" if product_data[:sells_count]&.to_i > 50
       # text << "📈 <b>История цены: </b>#{product_data[:price_history]}₽ \n\n" if product_data[:price_history]
       # text << "🏷 <b>Категория: </b> #{product_data[:subject]} \n"
