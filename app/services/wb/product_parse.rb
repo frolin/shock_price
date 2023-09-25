@@ -39,11 +39,11 @@ module Wb
           images: images,
           video: find_video,
           reviews_count: reviews_count,
-          questions_count: questions_count,
+          # questions_count: questions_count,
           rating: find_rating,
           url: @page.current_url,
           title: find_title,
-          price_history: price_history,
+          # price_history: price_history,
           sells_count: find_sells_count,
           description: find_description,
           final_price: final_price
