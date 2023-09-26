@@ -1,26 +1,27 @@
 #https://crontab.guru/
 
 check_women_discount:
-  cron: "*30 * * * *" # execute at every 30 minute
+  cron: "0 * * * *" # execute at every 30 minute
   class: "::Wb::CheckWomenCategoriesWorker"
   queue: 'check_discounts'
 
 check_home_discount:
-  cron: "0 * * * *" # execute at every 30 minute
+  cron: "15 * * * *" # execute at every 30 minute
   class: "::Wb::CheckHomeCategoriesWorker"
   queue: 'check_discounts'
 
 check_gadget_discount:
-  cron: "*15 * * * *" # execute at every 30 minute
+  cron: "30 * * * *" # execute at every 30 minute
   class: "::Wb::CheckGadgetCategoriesWorker"
   queue: 'check_discounts'
 
 check_custom_queries_discount:
-  cron: "*45 * * * *" # execute at every 45 minute
+  cron: "45 * * * *" # execute at every 45 minute
   class: "::Wb::CheckCustomQueryWorker"
   queue: 'check_discounts'
 
 parse_products:
-  cron: "*/10 * * * *" # execute at every 30 minute
+  enabled: false
+  cron: "0 * * * *" # execute at every 30 minute
   class: "::Wb::ProductsParserWorker"
   queue: 'product_parsing'

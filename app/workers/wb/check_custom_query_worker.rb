@@ -1,8 +1,6 @@
 module Wb
   class CheckCustomQueryWorker
     include Sidekiq::Worker
-
-    sidekiq_options queue: :check_discounts, retry: 3
     
     def perform
       cosmetics = ['Бальзам для губ', 'Бальзам для губ', 'Твердый бальзам для волос', 'Крем для рук и тела', 'Твердое масло для тела' ]
