@@ -2,12 +2,12 @@
 
 check_women_discount:
   cron: "*30 * * * *" # execute at every 30 minute
-  class: "Wb::CheckWomenCategoriesWorker"
+  class: "::Wb::CheckWomenCategoriesWorker"
   queue: 'check_discounts'
 
 check_home_discount:
   cron: "0 * * * *" # execute at every 30 minute
-  class: "Wb::CheckHomeCategoriesWorker"
+  class: "::Wb::CheckHomeCategoriesWorker"
   queue: 'check_discounts'
 
 check_gadget_discount:
@@ -22,5 +22,5 @@ check_custom_queries_discount:
 
 parse_products:
   cron: "*/10 * * * *" # execute at every 30 minute
-  class: "Wb::ProductsParserWorker"
+  class: "::Wb::ProductsParserWorker"
   queue: 'product_parsing'
