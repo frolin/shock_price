@@ -14,7 +14,7 @@ module Wb
       end
 
        ::Wb::CheckDiscountsWorker.perform_async('Товары для уборки', 'женщины', [1,2,3,4,5], 50)
-       ::Wb::CheckDiscountsWorker.perform_async('Маникюр', 'женщины', [1,2,3,4,5], 30)
+       ::Wb::CheckDiscountsWorker.perform_async('Маникюр', 'женщины', [1,2,3], 30)
     end
   end
 end
