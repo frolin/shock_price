@@ -15,6 +15,11 @@ check_gadget_discount:
   class: "::Wb::CheckGadgetCategoriesWorker"
   queue: 'check_discounts'
 
+check_custom_queries_discount:
+  cron: "*45 * * * *" # execute at every 30 minute
+  class: "::Wb::CheckCustomQueryWorker"
+  queue: 'check_discounts
+
 parse_products:
   cron: "*/10 * * * *" # execute at every 30 minute
   class: "Wb::ProductsParserWorker"
