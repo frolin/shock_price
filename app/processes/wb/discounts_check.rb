@@ -49,6 +49,10 @@ module Wb
             Wb::ParseProductWorker.perform_async(@product.sku)
           end
 
+          unless @product.parsed? do 
+            Wb::ParseProductWorker.perform_async(@product.sku)
+          end 
+
           if @product.prices.count == 0
             @product.prices.create!(data: { price_discount:, price_full: })
           elsif @product.prices.last.price_discount > price_discount
