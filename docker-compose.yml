@@ -20,55 +20,6 @@ services:
     network_mode: host
     restart: unless-stopped
 
-
-#  app:
-#    depends_on:
-#      - db
-#      - worker
-#      - chrome
-#    build:
-#      context: .
-#      dockerfile: ./docker/app.Dockerfile
-#    command: /bin/sh -c "bundle install && rails s -b 0.0.0.0 -p 3333"
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      - RAILS_ENV=development
-#      - BOOTSNAP=true
-#    volumes:
-#      - .:/app
-#      - rails_cache:/app/tmp/cache:delegated
-#      - bundle:/vendor/bundle:delegated
-#      - gem_cache:/usr/local/bundle/gems
-#      - ${HOME}/.irbrc:/root/.irbrc
-##      - ${HOME}/.irb-history-market:/root/.irb-history
-#    env_file:
-#    - .env.dev
-#    ports:
-#      - "3333:3333"
-#
-#  worker:
-#    depends_on:
-#      - redis
-#    build:
-#      context: .
-#      dockerfile: ./docker/app.Dockerfile
-#    command: sh -c "bundle install && bundle exec sidekiq"
-#    stdin_open: true
-#    tty: true
-#    environment:
-#      - RAILS_ENV=development
-#      - BOOTSNAP=true
-#    volumes:
-#      - .:/app
-#      - rails_cache:/app/tmp/cache:delegated
-#      - bundle:/vendor/bundle:delegated
-#      - gem_cache:/usr/local/bundle/gems
-#    env_file:
-#      - .env.dev
-#    networks:
-#      - default
-
   chrome:
     image: selenium/standalone-chrome-debug
     # Debug version enables VNC ability
@@ -98,7 +49,3 @@ services:
 
 volumes:
   postgres:
-#  bundle:
-#  rails_cache:
-#  gem_cache:
-#  irbrc_history:
