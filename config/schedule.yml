@@ -20,6 +20,11 @@ check_custom_queries_discount:
   class: "::Wb::CheckCustomQueryWorker"
   queue: 'check_discounts'
 
+check_top_queries_discount:
+  cron: "50 * * * *" # execute at every 45 minute
+  class: "::Wb::TopQueryWorker"
+  queue: 'check_discounts'  
+
 parse_products:
   enabled: false
   cron: "0 * * * *" # execute at every 30 minute
