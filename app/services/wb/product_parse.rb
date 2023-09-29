@@ -44,8 +44,8 @@ module Wb
           url: @page.current_url,
           title: find_title,
           # price_history: price_history,
-          sells_count: find_sells_count,
-          description: find_description,
+          # sells_count: find_sells_count,
+          # description: find_description,
           final_price: final_price
         }.compact
       ensure
